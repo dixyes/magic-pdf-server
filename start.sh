@@ -20,5 +20,5 @@ echo "{
 
 # 启动服务
 
-. ./venv/bin/activate
-exec python server.py
+. /venv/bin/activate
+exec python3 server.py
