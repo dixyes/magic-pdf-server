@@ -1,6 +1,6 @@
 # magic-pdf-server
 
-a simple server to convert html to pdf using MinerU
+a simple server to convert extract pdf info using MinerU
 
 ## License
 
