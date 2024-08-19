@@ -11,12 +11,13 @@ services:
       ENABLE_TABLE_RECOG: "true"
       MAX_TIME: 400
     shm_size: 10gb
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health"]
-      interval: 1m30s
-      timeout: 500s # may block for a long time
-      retries: 5
-      start_period: 30s
+    # TODO
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health"]
+    #   interval: 1m30s
+    #   timeout: 500s # may block for a long time
+    #   retries: 5
+    #   start_period: 30s
     deploy:
       mode: replicated
       replicas: 4
