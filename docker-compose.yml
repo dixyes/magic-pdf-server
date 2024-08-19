@@ -1,0 +1,39 @@
+
+services:
+  server:
+    restart: always
+    build:
+      context: .
+    volumes:
+      - ${MODELS_PATH}:/models:ro
+    environment:
+      DEVICE: cuda
+      ENABLE_TABLE_RECOG: "true"
+      MAX_TIME: 400
+    shm_size: 10gb
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health"]
+      interval: 1m30s
+      timeout: 500s # may block for a long time
+      retries: 5
+      start_period: 30s
+    deploy:
+      mode: replicated
+      replicas: 4
+      endpoint_mode: dnsrr
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      - caddy
+
+  caddy:
+    restart: always
+    image: public.ecr.aws/docker/library/caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    ports:
+      - "127.0.0.1:8001:8000"

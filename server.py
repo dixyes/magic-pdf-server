@@ -46,7 +46,7 @@ app.add_middleware(
 )
 
 
-@app.post("/pdf_extract")
+@app.post("/v1/pdf_extract")
 async def pdf_extract(request: PDFExtractRequest, raw_request: Request):
     pdfBytes = await fetchPDFUrl(request.url)
     if len(pdfBytes) > config.pdfExtract.maxSize:
@@ -90,6 +90,9 @@ async def pdf_extract(request: PDFExtractRequest, raw_request: Request):
         images="images" in request.outputs and imageWriter.dump() or None,
     )
 
+@app.get("/v1/health")
+async def health():
+    return {"status": "ok"}
 
 def mian():
     # start the server
